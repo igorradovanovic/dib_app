@@ -3,6 +3,7 @@ package com.dib.controller;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dib.config.WebServiceConfig;
 import com.dib.controller.dto.system.ResponseWrapper;
 import com.dib.wsclient.PunkApiClient;
+import com.dib.wsclient.quest.RestResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -25,8 +27,7 @@ public class UserController {
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public ResponseEntity<?> loadAll() throws KeyManagementException, IOException, GeneralSecurityException {
 		PunkApiClient punkApiClient = webServiceConfig.initializePunkApiClient();
-		punkApiClient.sendRequest();
-		String res1 = "OK";
+		List<RestResponse> res1 = punkApiClient.sendRequestGetData();
 		return new ResponseEntity(new ResponseWrapper(res1), HttpStatus.OK);
 	}
 

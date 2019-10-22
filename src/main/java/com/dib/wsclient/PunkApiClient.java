@@ -25,7 +25,7 @@ public class PunkApiClient {
 	private static final Logger LOGGER = LoggerFactory.getLogger(PunkApiClient.class);
 	private static final String url = "https://api.punkapi.com/v2/beers/random";
 	
-	public String sendRequest() {
+	public List<RestResponse> sendRequestGetData() {
 		
 		final ClientHttpRequestFactory clientHttpRequestFactory = new CustomClientHttpRequestFactory();
 		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
@@ -44,6 +44,6 @@ public class PunkApiClient {
   //    String jsonResponse = response.getBody();
 
 		
-		return "OK";
+		return responseList;
 	}
 }
