@@ -15,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.dib.security.AuthoritiesConstants;
 import com.dib.security.Http401UnauthorizedEntryPoint;
-import com.dib.security.jwt.JWTConfigurer;
-import com.dib.security.jwt.TokenProvider;
 
 
 
@@ -24,20 +22,12 @@ import com.dib.security.jwt.TokenProvider;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
-//	   @Override
-//	    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//	        httpSecurity.authorizeRequests().antMatchers("/").permitAll();
-//	}
-
 	@Autowired
 	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private Http401UnauthorizedEntryPoint authenticationEntryPoint;
 
-	@Autowired
-	private TokenProvider tokenProvider;
-	
 	@Autowired
 	private AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -56,18 +46,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  // in real env this must be peremited forgot/reset controller toDo
 		  .antMatchers("/api/forgot").permitAll()
 		  .antMatchers("/api/reset").permitAll()
-		  
 		  .antMatchers("/api/**").authenticated()
-		  .antMatchers("/greeting").permitAll()
 		  
 
-		  .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.
-		  ADMIN) .antMatchers("/assets/**").permitAll() //
-		  .antMatchers("/*").permitAll() 
 		  //to enable swagger testing, security
 		  .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").hasAuthority(AuthoritiesConstants.ADMIN)
-		  .anyRequest().authenticated() .and()
-		  .apply(securityConfigurerAdapter());
+		  .anyRequest().authenticated() ;
+		  //.and()
+		  //.apply(securityConfigurerAdapter());
 		 
 	}
 
@@ -88,16 +74,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-	
-
-	private JWTConfigurer securityConfigurerAdapter() {
-		return new JWTConfigurer(tokenProvider);
-	}
-
-	public static void main(String[] args) {
-		BCryptPasswordEncoder b = new BCryptPasswordEncoder();
-		System.out.println(b.encode("password0511"));
-	}
-
 
 }

@@ -54,8 +54,6 @@ public class UserDetailsService implements org.springframework.security.core.use
 		if (userFromDatabase != null && userFromDatabase.getUserEnabled() != null && userFromDatabase.getUserEnabled() == true) {
 			return new org.springframework.security.core.userdetails.User(lowercaseLogin,
 					userFromDatabase.getUserPassword(), authorities);
-//			return new CustomUserDetails(lowercaseLogin,
-//					userFromDatabase.getAccPassword(), authorities, userFromDatabase.getAccId());
 		} else {
 			throw new UsernameNotFoundException("User " + login + " was not found in the " + "database");
 		}
