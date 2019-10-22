@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dib.config.WebServiceConfig;
 import com.dib.controller.dto.system.ResponseWrapper;
 import com.dib.wsclient.PunkApiClient;
 import com.dib.wsclient.quest.RestResponse;
+import com.dib.config.WebServiceConfig;
 
 @RestController
 @RequestMapping("/api")
@@ -28,6 +28,7 @@ public class UserController {
 	public ResponseEntity<?> loadAll() throws KeyManagementException, IOException, GeneralSecurityException {
 		PunkApiClient punkApiClient = webServiceConfig.initializePunkApiClient();
 		List<RestResponse> res1 = punkApiClient.sendRequestGetData();
+
 		return new ResponseEntity(new ResponseWrapper(res1), HttpStatus.OK); 
 	}
 

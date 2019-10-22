@@ -12,7 +12,7 @@ import java.net.UnknownHostException;
  * {@link javax.net.ssl.SSLSocket#getEnabledProtocols() enabled protocols} to the protocols that were passed to its
  * {@link #ProtocolOverridingSSLSocketFactory(javax.net.ssl.SSLSocketFactory, String[]) constructor}
  *
- * @author Jaikiran Pai
+ * @author Radovanovic Igor
  */
 
 public class CustomSSLSocketFactory extends SSLSocketFactory {

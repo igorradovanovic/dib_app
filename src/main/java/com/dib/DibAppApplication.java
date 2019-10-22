@@ -54,7 +54,7 @@ public class DibAppApplication {
 			@Override
 			protected void postProcessContext(Context context) {
 				ContextResource resource = new ContextResource();
-				resource.setName("jdbc/Cyrilic");
+				resource.setName("jdbc/Dib");
 				resource.setType(DataSource.class.getName());
 				resource.setProperty("username", jdbcUsername);
 				resource.setProperty("password", jdbcPassword);
