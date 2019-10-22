@@ -3,10 +3,16 @@ package com.dib.wsclient;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.dib.wsclient.quest.RestResponse;
+import com.dib.wsclient.quest.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Arrays;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,16 +35,14 @@ public class PunkApiClient {
         headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
         HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
         
-        // Retrieve JSON 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET,entity,String.class);
-        System.out.println("Response: " + response.getBody());
-        LOGGER.info("Response: " + response.getBody());
-//		MediaType contentType = response.getHeaders().getContentType();
-//		HttpStatus statusCode = response.getStatusCode();
-		
-		// Retrieve POJO
-		// MyCustomPojoClass pp = restTemplate.getForObjects(url, MyCustomPojoClass.class);
-		//LOGGER.info(pp.toString());
+        // Retrieve POJO 
+        ResponseEntity<List<RestResponse>> response = restTemplate.exchange(url, HttpMethod.GET,entity, new ParameterizedTypeReference<List<RestResponse>>(){});
+        List<RestResponse> responseList = response.getBody();
+        
+        // Retrieve JSON
+  //    ResponseEntity<String> jsonResponse = restTemplate.exchage(url, HttpMethod.GET,entity, String.class);
+  //    String jsonResponse = response.getBody();
+
 		
 		return "OK";
 	}
