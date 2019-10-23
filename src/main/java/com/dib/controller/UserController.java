@@ -28,7 +28,6 @@ public class UserController {
 	public ResponseEntity<?> loadAll() throws KeyManagementException, IOException, GeneralSecurityException {
 		PunkApiClient punkApiClient = webServiceConfig.initializePunkApiClient();
 		List<RestResponse> res1 = punkApiClient.sendRequestGetData();
-
 		return new ResponseEntity(new ResponseWrapper(res1), HttpStatus.OK); 
 	}
 
