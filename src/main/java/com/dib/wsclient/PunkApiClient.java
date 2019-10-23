@@ -1,22 +1,23 @@
 package com.dib.wsclient;
 
+import com.dib.wsclient.quest.RestResponse;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import com.dib.wsclient.quest.RestResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.net.ssl.SSLContext;
-
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.socket.ConnectionSocketFactory;
@@ -30,13 +31,6 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.ssl.TrustStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 public class PunkApiClient {
 
@@ -46,24 +40,21 @@ public class PunkApiClient {
 	public List<RestResponse> sendRequestGetData() {
 
 		List<RestResponse> responseValue = new ArrayList<>();
-		TrustStrategy acceptingTrustStrategy = (cert, authType) -> true;
+		TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 		SSLContext sslContext;
 
 		try {
-			sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-			SSLConnectionSocketFactory customSSLConnectionSocketFactory = new SSLConnectionSocketFactory(sslContext,
-					NoopHostnameVerifier.INSTANCE);
+			// setting up SSLContext
+			sslContext = org.apache.http.ssl.SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy)
+					.build();
 
-			Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
-					.register("https", customSSLConnectionSocketFactory)
-					.register("http", new PlainConnectionSocketFactory()).build();
+			SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
 
-			BasicHttpClientConnectionManager connectionManager = new BasicHttpClientConnectionManager(
-					socketFactoryRegistry);
-			CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(customSSLConnectionSocketFactory)
-					.setConnectionManager(connectionManager).build();
-			HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(
-					httpClient);
+			CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
+
+			HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+
+			requestFactory.setHttpClient(httpClient);
 
 			// initialization of custom RestTemplate Spring class
 			RestTemplate restTemplate = new RestTemplate(requestFactory);
