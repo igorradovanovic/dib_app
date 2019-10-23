@@ -51,19 +51,6 @@ public class DibAppApplication {
 				return super.getTomcatWebServer(tomcat);
 			}
 
-			@Override
-			protected void postProcessContext(Context context) {
-				ContextResource resource = new ContextResource();
-				resource.setName("jdbc/Dib");
-				resource.setType(DataSource.class.getName());
-				resource.setProperty("username", jdbcUsername);
-				resource.setProperty("password", jdbcPassword);
-				resource.setProperty("url", jdbcUrl);
-				resource.setProperty("maxTotal", "40");
-				resource.setAuth("Container");
-				
-				context.getNamingResources().addResource(resource);
-			}
 		};
 		return tomcat;
 	}
