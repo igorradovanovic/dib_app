@@ -30,10 +30,10 @@ Test this Application with POSTMAN. Download from this
 `https://www.getpostman.com/downloads/`
 
 ## Features
-1. This Application is secured throw Spring Security. UserDetailesService interface has been implemented.
+1. This Application is secured throw Spring Security. UserDetailsService interface has been implemented.
 To log in and test this App with PostMan setup Basic Auth and use:
-username: admin
-password: 2910
+* username: admin
+* password: 2910
 
 1. To load all beers make http request GET 
 `http://localhost:8080/api/beers` 
