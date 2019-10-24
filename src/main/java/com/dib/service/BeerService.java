@@ -94,10 +94,7 @@ public class BeerService {
 	public String fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
 
 		int numberOfStoredBeers = beerRepository.findAll().size();
-		while (numberOfStoredBeers <= beerCapacity) {
-			if (numberOfStoredBeers == 10) {
-				break;
-			}
+		while (numberOfStoredBeers < beerCapacity) {
 			List<Beer> beers = this.getBeersFromPunkApi();
 			if (beers != null && !beers.isEmpty()) {
 				for (Beer beer : beers) {
@@ -117,7 +114,6 @@ public class BeerService {
 				LOGGER.info("REST RESPONSE IS NULL");
 			}
 		}
-
 		return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + beerCapacity + " BEERS";
 	}
 
