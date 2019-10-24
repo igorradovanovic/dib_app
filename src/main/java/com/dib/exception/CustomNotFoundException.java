@@ -1,6 +1,6 @@
 package com.dib.exception;
 
-public class CustomNotFoundException extends BaseException {
+public class CustomNotFoundException extends Exception {
 	
 	/**
 	 * 
