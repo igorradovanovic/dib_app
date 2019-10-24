@@ -1,5 +1,6 @@
 package com.dib.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,7 +17,12 @@ import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name="beer")
-public class Beer {
+public class Beer implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "ber_id")
