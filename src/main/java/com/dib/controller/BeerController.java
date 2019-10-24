@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dib.controller.dto.BeerDTO;
 import com.dib.controller.dto.system.ResponseWrapper;
 import com.dib.exception.CustomNotFoundException;
-import com.dib.service.BeerService;
+import com.dib.service.BeerServiceImpl;
 
 @RestController
 @RequestMapping("/api")
 public class BeerController {
 
 	@Autowired
-	BeerService beerService;
+	BeerServiceImpl beerService;
 
 	@RequestMapping(value = "/beers/fillUpBeers", method = RequestMethod.POST)
 	ResponseEntity<?> fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
