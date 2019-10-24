@@ -6,8 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Test {
-	Test(){}
-	
+	Test() {
+	}
+
 	List<RestResponse> listRestResponse;
 
 	public List<RestResponse> getListRestResponse() {
@@ -17,6 +18,5 @@ public class Test {
 	public void setListRestResponse(List<RestResponse> listRestResponse) {
 		this.listRestResponse = listRestResponse;
 	}
-	
-	
+
 }

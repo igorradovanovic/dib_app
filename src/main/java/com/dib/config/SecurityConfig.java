@@ -4,6 +4,7 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,7 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().csrf().disable().headers()
 				.frameOptions().disable().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic().and().authorizeRequests()
-				.antMatchers("/config/**").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api/**")
+			    .antMatchers(HttpMethod.POST, "/beers").hasRole("AuthoritiesConstants.ADMIN")
+			    .antMatchers(HttpMethod.GET, "/beers/**").hasRole("AuthoritiesConstants.ADMIN")
+			    .antMatchers(HttpMethod.DELETE, "/beers/**").hasRole("AuthoritiesConstants.ADMIN")
+				.antMatchers("/api/**")
 				.authenticated();
 	}
 

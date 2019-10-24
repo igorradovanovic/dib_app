@@ -40,6 +40,8 @@ public class BeerService {
 	@Autowired
 	RestTemplate restTemplate;
 
+	final static int beerCapacity = 10;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(BeerService.class);
 
 	@Transactional(readOnly = true)
@@ -92,28 +94,31 @@ public class BeerService {
 	public String fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
 
 		int numberOfStoredBeers = beerRepository.findAll().size();
-		while (numberOfStoredBeers <= 10) {
+		while (numberOfStoredBeers <= beerCapacity) {
+			if (numberOfStoredBeers == 10) {
+				break;
+			}
 			List<Beer> beers = this.getBeersFromPunkApi();
 			if (beers != null && !beers.isEmpty()) {
 				for (Beer beer : beers) {
 					boolean existence = this.beerRepository.existsByBerExtId(beer.getBerId());
-					if (!existence && numberOfStoredBeers <= 10) {
+					if (!existence && numberOfStoredBeers < beerCapacity) {
 						this.beerRepository.save(beer);
 						numberOfStoredBeers++;
 					} else {
 						if (existence) {
 							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
-						} else if (numberOfStoredBeers <= 10) {
-							LOGGER.info("BEER TABLE IS ALREADY FILLED UP TO MAXIMUM 10 BEERS");
+						} else if (numberOfStoredBeers <= beerCapacity) {
+							LOGGER.info("BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + beerCapacity + " BEERS");
 						}
 					}
 				}
 			} else {
 				LOGGER.info("REST RESPONSE IS NULL");
 			}
-
 		}
-		return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM 10 BEERS";
+
+		return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + beerCapacity + " BEERS";
 	}
 
 	public List<Beer> getBeersFromPunkApi() throws KeyManagementException, IOException, GeneralSecurityException {
