@@ -64,7 +64,7 @@ public class BeerService {
 		}
 
 		beerMapper.updateEntityFromDto(input, beerDB);
-		Beer ber = this.beerRepository.save(beerDB);
+		this.beerRepository.save(beerDB);
 	}
 
 	@Transactional

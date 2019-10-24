@@ -11,7 +11,6 @@ import com.dib.wsclient.PunkApiClient;
 
 
 @Configuration
-
 public class WebServiceConfig {
 	
 	private final Logger LOGGER = LoggerFactory.getLogger(WebServiceConfig.class);
@@ -21,6 +20,7 @@ public class WebServiceConfig {
 	public PunkApiClient initializePunkApiClient() throws IOException, KeyManagementException, GeneralSecurityException {
 		
 		PunkApiClient service = new PunkApiClient();
+		LOGGER.info("PUNK API CLIENT INSTANCE HAS BEEN CREATED");
 		return service;
 	}
 }

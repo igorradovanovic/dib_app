@@ -1,12 +1,9 @@
 package com.dib.security;
 
 import java.util.ArrayList;
-
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.dib.model.Role;
 import com.dib.model.User;
 import com.dib.repository.UserRepository;

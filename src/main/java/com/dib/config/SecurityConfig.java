@@ -16,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.dib.security.AuthoritiesConstants;
 import com.dib.security.Http401UnauthorizedEntryPoint;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -42,18 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .sessionCreationPolicy(SessionCreationPolicy.STATELESS) .and()
 		  .httpBasic() .and() .authorizeRequests()
 		  .antMatchers("/config/**").hasAuthority(AuthoritiesConstants.ADMIN)
-		  .antMatchers("/api/auth").permitAll()
-		  // in real env this must be peremited forgot/reset controller toDo
-		  .antMatchers("/api/forgot").permitAll()
-		  .antMatchers("/api/reset").permitAll()
 		  .antMatchers("/api/**").authenticated()
 		  
 
 		  //to enable swagger testing, security
 		  .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").hasAuthority(AuthoritiesConstants.ADMIN)
 		  .anyRequest().authenticated() ;
-		  //.and()
-		  //.apply(securityConfigurerAdapter());
+
 		 
 	}
 

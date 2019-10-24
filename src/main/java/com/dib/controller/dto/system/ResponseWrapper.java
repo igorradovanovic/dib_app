@@ -1,7 +1,5 @@
 package com.dib.controller.dto.system;
 
-import java.util.List;
-
 public class ResponseWrapper {
 	
 	private Object data;
