@@ -45,7 +45,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
 		System.out.println("********************************AUTHORITIES " + roles.size());
 
-		for (Iterator iterator = roles.iterator(); iterator.hasNext();) {
+		for (Iterator<Role> iterator = roles.iterator(); iterator.hasNext();) {
 			Role role = (Role) iterator.next();
 			GrantedAuthority a = new SimpleGrantedAuthority("ROLE_" + role.getRolName());
 			authorities.add(a);
