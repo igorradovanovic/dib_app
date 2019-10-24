@@ -27,7 +27,7 @@ import com.dib.wsclient.quest.RestResponse;
 
 @Service
 public class BeerService {
-
+	
 	@Autowired
 	WebServiceConfig webServiceConfig;
 
@@ -85,6 +85,7 @@ public class BeerService {
 
 	@Transactional(readOnly = true)
 	public boolean exists(Integer id) {
+		// TODO ... bzvz resen kod ... mani se ber promenljive, sve da izbacis gde pise ber ... idi pravo na return this.beerRepository.existsById(id) ... i u sledecoj metodi
 		boolean ber = this.beerRepository.existsById(id);
 		return ber;
 	}
@@ -97,17 +98,18 @@ public class BeerService {
 
 	@Transactional(rollbackFor=Exception.class)
 	public String fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
-
 		int numberOfStoredBeers = beerRepository.findAll().size();
 		while (numberOfStoredBeers <= 10) {
-			List<Beer> beers = this.getBeersFromPunkApi();
+			List<Beer> beers = this.getBeersFromPunkApi(); // MILAN ovo ce uvek vratiti jedno pivo, zasto lista?
 			if (beers != null && !beers.isEmpty()) {
 				for (Beer beer : beers) {
+					// MILAN mogao bi i bez odlaska do baze da proveris exists posto mozes da ucitas listu postojecih piva u mem... ajde nije nuzno, manjio problem
 					if (!this.existsByExtId(beer.getBerId()) && numberOfStoredBeers <= 10) {
 						this.beerRepository.save(beer);
 						numberOfStoredBeers = beerRepository.findAll().size();
+						// MILAN samo increment, dodao si jedno pivo ... zasto bi opet pucao upit u bazu ... mada ajde, mozda jos neko radi fillup, mada je transactional ...
 					} else {
-						if (this.existsByExtId(beer.getBerId())) {
+						if (this.existsByExtId(beer.getBerId())) { // MILAN sacuvaj ovo u boolean, nemoj opet u bazu
 							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
 						} else if (numberOfStoredBeers <= 10) {
 							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
@@ -123,6 +125,7 @@ public class BeerService {
 	}
 
 	@Transactional
+	// MILAN ova metoda neka bude private i nema potrebe da bude transactional, transactional stavljas samo na metode koje direktno pisu / citaju bazu, tj rade sa repository interfejsima
 	public List<Beer> getBeersFromPunkApi() throws KeyManagementException, IOException, GeneralSecurityException {
 		List<Beer> beers = new ArrayList<>();
 		PunkApiClient punkApiClient = webServiceConfig.initializePunkApiClient();
@@ -132,7 +135,7 @@ public class BeerService {
 		return beers;
 	}
 
-	@Transactional
+	@Transactional// MILAN bez transactional
 	public List<Beer> convertToBeerPojo(List<RestResponse> restResponse) {
 
 		List<Beer> beers = new ArrayList<>();
@@ -156,11 +159,13 @@ public class BeerService {
 		return beers;
 	}
 
-	@Transactional
+	@Transactional// MILAN bez trans
 	public Float meanValue(List<MashTemp> mashTemp, Fermentation fermentation) {
 		long sum = 0;
 		float result;
-
+		// MILAN meni su ranije zamerali i double kad koristim, kao bolje big decimal zbog preciznosti, mada ja to ne bih zamerio kandidatu ... ako zna koja je preciznost float i double :)
+		
+		
 		if (mashTemp != null && !mashTemp.isEmpty()) {
 			for (MashTemp one : mashTemp) {
 				if(one.getTemp() !=null && one.getTemp().getValue() != null) {
@@ -176,9 +181,9 @@ public class BeerService {
 			
 		}
 
-		result = sum / mashTemp.size() + 1;
+		result = sum / mashTemp.size() + 1; // MILAN da li ovaj + 1 treba da ide i ako fermentation nije dodat
 
-		return new Float(result);
+		return new Float(result); // sta bi bilo kad bi samo vratio result? jel mora new Float - ne mora.
 
 	}
 }
