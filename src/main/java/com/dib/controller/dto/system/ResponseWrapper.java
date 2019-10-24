@@ -6,22 +6,26 @@ public class ResponseWrapper {
 	
 	private Object data;
 
-	private List<String> messages;
+	private String message;
 
 	public ResponseWrapper() {
 
 	}
 
 	public ResponseWrapper(Object data) {
-		super();
 		this.data = data;
+	}
+	
+	public ResponseWrapper(String message) {
+		this.message = message;
+	}
+	
+	public ResponseWrapper(Object data, String message) {
+		this.data = data;
+		this.message = message;
 	}
 
-	public ResponseWrapper(Object data, List<String> messages) {
-		super();
-		this.data = data;
-		this.messages = messages;
-	}
+	
 
 	public Object getData() {
 		return data;
@@ -31,12 +35,14 @@ public class ResponseWrapper {
 		this.data = data;
 	}
 
-	public List<String> getMessages() {
-		return messages;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setMessages(List<String> messages) {
-		this.messages = messages;
+	public void setMessage(String message) {
+		this.message = message;
 	}
+
+	
 
 }

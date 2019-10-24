@@ -14,17 +14,17 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Fermentation {
 
 	@JsonProperty("temp")
-	private Temp_ temp;
+	private Temp temp;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	@JsonProperty("temp")
-	public Temp_ getTemp() {
+	public Temp getTemp() {
 		return temp;
 	}
 
 	@JsonProperty("temp")
-	public void setTemp(Temp_ temp) {
+	public void setTemp(Temp temp) {
 		this.temp = temp;
 	}
 
