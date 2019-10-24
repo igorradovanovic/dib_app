@@ -42,7 +42,7 @@ password: 2910
 `http://localhost:8080/api/beers/{id}`
 * Selected row will be deleted.
 3. To FILL UP beer table make http request POST 
-`http://localhost:8080/api/fillUpBeers`
+`http://localhost:8080/api/beers/fillUpBeers`
 * This feature provied filling up beer table up to max 10 different beers.
 
 ## Contact
