@@ -85,17 +85,10 @@ public class BeerService {
 
 	@Transactional(readOnly = true)
 	public boolean exists(Integer id) {
-		boolean ber = this.beerRepository.existsById(id);
-		return ber;
+		return this.beerRepository.existsById(id);
 	}
 
-	@Transactional(readOnly = true)
-	public boolean existsByExtId(Integer id) {
-		boolean ber = this.beerRepository.existsByBerExtId(id);
-		return ber;
-	}
-
-	@Transactional(rollbackFor=Exception.class)
+	@Transactional(rollbackFor = Exception.class)
 	public String fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
 
 		int numberOfStoredBeers = beerRepository.findAll().size();
@@ -103,26 +96,26 @@ public class BeerService {
 			List<Beer> beers = this.getBeersFromPunkApi();
 			if (beers != null && !beers.isEmpty()) {
 				for (Beer beer : beers) {
-					if (!this.existsByExtId(beer.getBerId()) && numberOfStoredBeers <= 10) {
+					boolean existence = this.beerRepository.existsByBerExtId(beer.getBerId());
+					if (!existence && numberOfStoredBeers <= 10) {
 						this.beerRepository.save(beer);
-						numberOfStoredBeers = beerRepository.findAll().size();
+						numberOfStoredBeers++;
 					} else {
-						if (this.existsByExtId(beer.getBerId())) {
+						if (existence) {
 							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
 						} else if (numberOfStoredBeers <= 10) {
-							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
+							LOGGER.info("BEER TABLE IS ALREADY FILLED UP TO MAXIMUM 10 BEERS");
 						}
 					}
 				}
-			}else {
+			} else {
 				LOGGER.info("REST RESPONSE IS NULL");
 			}
-			
+
 		}
-		return "BEER TABLE IS FULL. MAX NUMBER OF BEERS IS 10";
+		return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM 10 BEERS";
 	}
 
-	@Transactional
 	public List<Beer> getBeersFromPunkApi() throws KeyManagementException, IOException, GeneralSecurityException {
 		List<Beer> beers = new ArrayList<>();
 		PunkApiClient punkApiClient = webServiceConfig.initializePunkApiClient();
@@ -132,7 +125,6 @@ public class BeerService {
 		return beers;
 	}
 
-	@Transactional
 	public List<Beer> convertToBeerPojo(List<RestResponse> restResponse) {
 
 		List<Beer> beers = new ArrayList<>();
@@ -156,29 +148,31 @@ public class BeerService {
 		return beers;
 	}
 
-	@Transactional
 	public Float meanValue(List<MashTemp> mashTemp, Fermentation fermentation) {
 		long sum = 0;
 		float result;
 
 		if (mashTemp != null && !mashTemp.isEmpty()) {
 			for (MashTemp one : mashTemp) {
-				if(one.getTemp() !=null && one.getTemp().getValue() != null) {
+				if (one.getTemp() != null && one.getTemp().getValue() != null) {
 					sum += one.getTemp().getValue();
 				}
-				
+
 			}
 		}
 		if (fermentation.getTemp() != null) {
-			if(fermentation.getTemp().getValue()!= null) {
+			if (fermentation.getTemp().getValue() != null) {
 				sum += fermentation.getTemp().getValue();
 			}
-			
+
+		}
+		if (fermentation.getTemp() != null) {
+			result = sum / mashTemp.size() + 1;
+		} else {
+			result = sum / mashTemp.size();
 		}
 
-		result = sum / mashTemp.size() + 1;
-
-		return new Float(result);
+		return result;
 
 	}
 }

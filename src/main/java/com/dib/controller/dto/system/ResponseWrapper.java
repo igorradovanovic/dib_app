@@ -1,7 +1,7 @@
 package com.dib.controller.dto.system;
 
 public class ResponseWrapper {
-	
+
 	private Object data;
 
 	private String message;
@@ -13,17 +13,15 @@ public class ResponseWrapper {
 	public ResponseWrapper(Object data) {
 		this.data = data;
 	}
-	
+
 	public ResponseWrapper(String message) {
 		this.message = message;
 	}
-	
+
 	public ResponseWrapper(Object data, String message) {
 		this.data = data;
 		this.message = message;
 	}
-
-	
 
 	public Object getData() {
 		return data;
@@ -40,7 +38,5 @@ public class ResponseWrapper {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-	
 
 }

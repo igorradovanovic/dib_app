@@ -25,11 +25,11 @@ public class UserRoles implements Serializable {
 	@Column(name = "urr_id")
 	private Integer urrId;
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "urr_rol_id")
 	private Role role;
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "urr_usr_id")
 	private User user;
 
@@ -56,11 +56,5 @@ public class UserRoles implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
-
-
-
-
 
 }

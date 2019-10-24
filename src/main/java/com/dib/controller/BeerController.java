@@ -19,29 +19,29 @@ import com.dib.service.BeerService;
 @RestController
 @RequestMapping("/api")
 public class BeerController {
-	
+
 	@Autowired
 	BeerService beerService;
-	
+
 	@RequestMapping(value = "/beers/fillUpBeers", method = RequestMethod.POST)
 	ResponseEntity<?> fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
 		String message = this.beerService.fillUpBeers();
-		return new ResponseEntity<Object>(new ResponseWrapper(message), HttpStatus.OK); 
+		return new ResponseEntity<Object>(new ResponseWrapper(message), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/beers", method = RequestMethod.GET)
-	ResponseEntity<?> loadAll(){
+	ResponseEntity<?> loadAll() {
 		List<BeerDTO> res = this.beerService.loadAll();
 		return new ResponseEntity<Object>(new ResponseWrapper(res), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/beers/{id}", method = RequestMethod.GET)
 	ResponseEntity<?> findById(@PathVariable Integer id) throws Exception {
-		
+
 		BeerDTO res = this.beerService.findById(id);
 		return new ResponseEntity<>(new ResponseWrapper(res), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/beers/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
 		if (id == null || !beerService.exists(id)) {
@@ -50,6 +50,5 @@ public class BeerController {
 		this.beerService.delete(id);
 		return new ResponseEntity<>(new ResponseWrapper("BEER HAS BEEN DELETED"), HttpStatus.OK);
 	}
-	
 
 }

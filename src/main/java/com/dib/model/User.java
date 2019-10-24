@@ -16,7 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -26,28 +26,28 @@ public class User implements Serializable {
 	@Column(name = "usr_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
-	
+
 	@Column(name = "usr_name")
 	private String userName;
-	
+
 	@Column(name = "usr_password")
 	private String userPassword;
-	
+
 	@Column(name = "usr_enabled")
 	private Boolean userEnabled;
-	
+
 	@Column(name = "usr_email")
 	private String userEmail;
-	
+
 	@Column(name = "usr_token_exp")
 	private Date userTokenExp;
-	
+
 	@Column(name = "usr_exp_date")
 	private Date userExpDate;
-	
+
 	@Column(name = "usr_reset_token")
 	private String userResetToken;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "usr_sys_create_date")
@@ -76,9 +76,6 @@ public class User implements Serializable {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-	
-	
-
 
 	public Boolean getUserEnabled() {
 		return userEnabled;
@@ -127,7 +124,5 @@ public class User implements Serializable {
 	public void setUserSysCreateDate(Date userSysCreateDate) {
 		this.userSysCreateDate = userSysCreateDate;
 	}
-	
-	
-}
 
+}

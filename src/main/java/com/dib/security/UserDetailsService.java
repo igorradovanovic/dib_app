@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Component("userDetailsService")
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
-	private final Logger log = LoggerFactory.getLogger(UserDetailsService.class);
+	private final Logger LOGGER = LoggerFactory.getLogger(UserDetailsService.class);
 
 	@Autowired
 	private UserRepository userRepository;
@@ -31,7 +31,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(final String login) {
-		log.debug("Authenticating {}", login);
+		LOGGER.info("Authenticating {}", login);
 		String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
 		User userFromDatabase = userRepository.findOneByUserName(lowercaseLogin);
 
@@ -39,15 +39,14 @@ public class UserDetailsService implements org.springframework.security.core.use
 
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-		System.out.println("********************************AUTHORITIES " + roles.size());
-
 		for (Iterator<Role> iterator = roles.iterator(); iterator.hasNext();) {
 			Role role = (Role) iterator.next();
 			GrantedAuthority a = new SimpleGrantedAuthority("ROLE_" + role.getRolName());
 			authorities.add(a);
 		}
 
-		if (userFromDatabase != null && userFromDatabase.getUserEnabled() != null && userFromDatabase.getUserEnabled() == true) {
+		if (userFromDatabase != null && userFromDatabase.getUserEnabled() != null
+				&& userFromDatabase.getUserEnabled() == true) {
 			return new org.springframework.security.core.userdetails.User(lowercaseLogin,
 					userFromDatabase.getUserPassword(), authorities);
 		} else {

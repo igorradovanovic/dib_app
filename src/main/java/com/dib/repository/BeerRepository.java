@@ -6,8 +6,6 @@ import com.dib.sys.CustomRepository;
 
 @Repository
 public interface BeerRepository extends CustomRepository<Beer, Integer> {
-		
+
 	boolean existsByBerExtId(Integer berExtId);
 }
-
-

@@ -16,7 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable {
-	
+
 	/**
 	 * 
 	 */
@@ -26,13 +26,13 @@ public class Role implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "rol_id")
 	private Integer rolId;
-	
+
 	@Column(name = "rol_name")
 	private String rolName;
-	
+
 	@Column(name = "rol_desc")
 	private String rolDesc;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "rol_sys_create_date")
@@ -69,7 +69,5 @@ public class Role implements Serializable {
 	public void setRolSysCreateDate(Date rolSysCreateDate) {
 		this.rolSysCreateDate = rolSysCreateDate;
 	}
-	
-	
 
 }

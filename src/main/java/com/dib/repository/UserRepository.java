@@ -12,10 +12,10 @@ import com.dib.sys.CustomRepository;
 
 @Repository
 public interface UserRepository extends CustomRepository<User, Long> {
-	 
+
 	User findOneByUserName(String name);
-	
+
 	@Query("SELECT r from UserRoles ur INNER JOIN ur.role r INNER JOIN ur.user u WHERE u.userName = :usrName")
-    List<Role> findAuthorities(@Param("usrName") String username);
-	
+	List<Role> findAuthorities(@Param("usrName") String username);
+
 }

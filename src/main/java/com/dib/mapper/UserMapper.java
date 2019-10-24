@@ -9,12 +9,15 @@ import com.dib.model.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-	
+
 	UserDTO entityToDTO(User account);
+
 	User dtoToEntity(UserDTO accountDTO);
-    
-    List<UserDTO> enitiesToDtos(List<User> list);
-    List<User> dtosToEntities(List<UserDTO> list);
-    User updateEntityFromDto(UserDTO dto, @MappingTarget User entity);
+
+	List<UserDTO> enitiesToDtos(List<User> list);
+
+	List<User> dtosToEntities(List<UserDTO> list);
+
+	User updateEntityFromDto(UserDTO dto, @MappingTarget User entity);
 
 }

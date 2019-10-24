@@ -15,7 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name="beer")
+@Table(name = "beer")
 public class Beer implements Serializable {
 
 	/**
@@ -27,20 +27,20 @@ public class Beer implements Serializable {
 	@Column(name = "ber_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer berId;
-	
+
 	@Column(name = "ber_name")
 	private String berName;
-	
+
 	@Column(name = "ber_ext_id")
 	private Integer berExtId;
-	
+
 	@Column(name = "ber_description")
 	@Type(type = "text")
 	private String berDescription;
-	
+
 	@Column(name = "ber_temp")
 	private Float berTemp;
-	
+
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "ber_sys_create_date")
@@ -93,7 +93,5 @@ public class Beer implements Serializable {
 	public void setBerSysCreateDate(Date berSysCreateDate) {
 		this.berSysCreateDate = berSysCreateDate;
 	}
-	
-	
-	
+
 }

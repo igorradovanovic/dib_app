@@ -19,7 +19,7 @@ import com.dib.security.Http401UnauthorizedEntryPoint;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -31,41 +31,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-			
-		http
-		  .exceptionHandling()
-		  .authenticationEntryPoint(authenticationEntryPoint) .and() .csrf()
-		  .disable() .headers() .frameOptions() .disable() .and()
-		  .sessionManagement()
-		  .sessionCreationPolicy(SessionCreationPolicy.STATELESS) .and()
-		  .httpBasic() .and() .authorizeRequests()
-		  .antMatchers("/config/**").hasAuthority(AuthoritiesConstants.ADMIN)
-		  .antMatchers("/api/**").authenticated()
-		  
 
-		  //to enable swagger testing, security
-		  .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/swagger-ui.html", "/webjars/**").hasAuthority(AuthoritiesConstants.ADMIN)
-		  .anyRequest().authenticated() ;
-
-		 
+		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().csrf().disable().headers()
+				.frameOptions().disable().and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic().and().authorizeRequests()
+				.antMatchers("/config/**").hasAuthority(AuthoritiesConstants.ADMIN).antMatchers("/api/**")
+				.authenticated();
 	}
 
 	@Bean
-    public AuthenticationManager authenticationManager() {
-        try {
-            return authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder())
-                .and()
-                .build();
-        } catch (Exception e) {
-            throw new BeanInitializationException("Security configuration failed", e);
-        }
-    }
+	public AuthenticationManager authenticationManager() {
+		try {
+			return authenticationManagerBuilder.userDetailsService(userDetailsService)
+					.passwordEncoder(passwordEncoder()).and().build();
+		} catch (Exception e) {
+			throw new BeanInitializationException("Security configuration failed", e);
+		}
+	}
 
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }

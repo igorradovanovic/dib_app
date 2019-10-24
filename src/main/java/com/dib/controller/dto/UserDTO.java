@@ -2,8 +2,8 @@ package com.dib.controller.dto;
 
 import java.util.Date;
 
-public class UserDTO  {
-	
+public class UserDTO {
+
 	private Long userId;
 	private String userName;
 	private String userPassword;
@@ -29,7 +29,7 @@ public class UserDTO  {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
+
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -45,7 +45,6 @@ public class UserDTO  {
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
 	}
-
 
 	public Date getUserTokenExp() {
 		return userTokenExp;
@@ -86,7 +85,5 @@ public class UserDTO  {
 	public void setUserEnabled(Boolean userEnabled) {
 		this.userEnabled = userEnabled;
 	}
-	
-	
-}
 
+}
