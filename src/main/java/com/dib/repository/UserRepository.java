@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.dib.model.Role;
 import com.dib.model.User;
-import com.dib.sys.CustomRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
-public interface UserRepository extends CustomRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findOneByUserName(String name);
 
