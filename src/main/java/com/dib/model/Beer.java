@@ -18,9 +18,7 @@ import org.hibernate.annotations.Type;
 @Table(name = "beer")
 public class Beer implements Serializable {
 
-	/**
-	 * 
-	 */
+	// MILAN: ime kolone ber?
 	private static final long serialVersionUID = 1L;
 
 	@Id

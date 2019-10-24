@@ -13,7 +13,6 @@ public class DibAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DibAppApplication.class, args);
-
 	}
 
 	@Bean

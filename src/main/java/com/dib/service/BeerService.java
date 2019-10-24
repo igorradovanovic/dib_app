@@ -25,7 +25,7 @@ import com.dib.wsclient.quest.Fermentation;
 import com.dib.wsclient.quest.MashTemp;
 import com.dib.wsclient.quest.RestResponse;
 
-@Service
+@Service // MILAN ... servisni sloj najvise treba da ima interfejse ... ako ti nije tesko izvuci ga u interfejs, a ovo zovi BeerServiceImpl
 public class BeerService {
 
 	@Autowired
@@ -40,15 +40,15 @@ public class BeerService {
 	@Autowired
 	RestTemplate restTemplate;
 
-	final static int beerCapacity = 10;
+	final static int BEER_CAPACITY = 10;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BeerService.class);
 
 	@Transactional(readOnly = true)
-	public List<BeerDTO> loadAll() {
-		List<Beer> res = this.beerRepository.findAll();
-		List<BeerDTO> res1 = this.beerMapper.enitiesToDtos(res);
-		return res1;
+	public List<BeerDTO> loadAll() { // MILAN izbegavaj ovakve naizve promenljivih ... i dalje si ostavio ber. Nemoj res i res1 ... sta ti fali da zoves all beers i allbeerDtos
+		List<Beer> allBeers = this.beerRepository.findAll();
+		return this.beerMapper.enitiesToDtos(allBeers);
+		// MILAN mozes i ostale metode ovde ovako da promenis i skratis
 	}
 
 	@Transactional
@@ -94,27 +94,28 @@ public class BeerService {
 	public String fillUpBeers() throws KeyManagementException, IOException, GeneralSecurityException {
 
 		int numberOfStoredBeers = beerRepository.findAll().size();
-		while (numberOfStoredBeers < beerCapacity) {
+		if (numberOfStoredBeers == BEER_CAPACITY) {
+			return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + BEER_CAPACITY + " BEERS";
+		}
+		while (numberOfStoredBeers < BEER_CAPACITY) {
 			List<Beer> beers = this.getBeersFromPunkApi();
 			if (beers != null && !beers.isEmpty()) {
 				for (Beer beer : beers) {
-					boolean existence = this.beerRepository.existsByBerExtId(beer.getBerId());
-					if (!existence && numberOfStoredBeers < beerCapacity) {
+					if (!this.beerRepository.existsByBerExtId(beer.getBerId())) {
 						this.beerRepository.save(beer);
-						numberOfStoredBeers++;
-					} else {
-						if (existence) {
-							LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
-						} else if (numberOfStoredBeers <= beerCapacity) {
-							LOGGER.info("BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + beerCapacity + " BEERS");
+						if (++numberOfStoredBeers == BEER_CAPACITY) {
+							break;
 						}
+					} else {
+						LOGGER.info("BEER ALREADY EXISTS; BEER_NAME: " + beer.getBerName());
 					}
 				}
 			} else {
-				LOGGER.info("REST RESPONSE IS NULL");
+				LOGGER.warn("PUNK API BEER STORAGE REST RESPONSE IS NULL OR EMPTY!!!");
+				break; // MILAN da ne bi upao u beskonacnu petlju ako je resposne null ili prazan
 			}
 		}
-		return "BEER TABLE IS ALREADY FILLED UP TO MAXIMUM " + beerCapacity + " BEERS";
+		return "BEER TABLE HAS BEEN FILLED UP TO MAXIMUM " + BEER_CAPACITY + " BEERS";
 	}
 
 	public List<Beer> getBeersFromPunkApi() throws KeyManagementException, IOException, GeneralSecurityException {
@@ -148,7 +149,7 @@ public class BeerService {
 
 		return beers;
 	}
-
+	
 	public Float meanValue(List<MashTemp> mashTemp, Fermentation fermentation) {
 		long sum = 0;
 		float result;
@@ -161,6 +162,7 @@ public class BeerService {
 
 			}
 		}
+		// MILAN nisam siguran da li i ovu temperaturu treba da racunas, ali mozda i da ... ostavi ovako
 		if (fermentation.getTemp() != null) {
 			if (fermentation.getTemp().getValue() != null) {
 				sum += fermentation.getTemp().getValue();

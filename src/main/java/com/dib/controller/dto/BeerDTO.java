@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class BeerDTO {
 
+	// MILAN i dalje koristis ber ... kazem ti, nekako mi to ime promenljive bangavo, mada nije strasno, ajde...
 	private Integer berId;
 	private String berName;
 	private Integer berExtId;
