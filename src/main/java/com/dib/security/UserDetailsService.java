@@ -34,14 +34,13 @@ public class UserDetailsService implements org.springframework.security.core.use
 		LOGGER.info("Authenticating {}", login);
 		String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
 		User userFromDatabase = userRepository.findOneByUserName(lowercaseLogin);
-
 		List<Role> roles = userRepository.findAuthorities(lowercaseLogin);
 
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
 		for (Iterator<Role> iterator = roles.iterator(); iterator.hasNext();) {
 			Role role = (Role) iterator.next();
-			GrantedAuthority a = new SimpleGrantedAuthority("ROLE_" + role.getRolName());
+			GrantedAuthority a = new SimpleGrantedAuthority(role.getRolName());
 			authorities.add(a);
 		}
 

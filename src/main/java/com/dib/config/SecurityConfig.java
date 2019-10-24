@@ -36,9 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and().csrf().disable().headers()
 				.frameOptions().disable().and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic().and().authorizeRequests()
-			    .antMatchers(HttpMethod.POST, "/beers").hasRole("AuthoritiesConstants.ADMIN")
-			    .antMatchers(HttpMethod.GET, "/beers/**").hasRole("AuthoritiesConstants.ADMIN")
-			    .antMatchers(HttpMethod.DELETE, "/beers/**").hasRole("AuthoritiesConstants.ADMIN")
+			    .antMatchers(HttpMethod.POST, "/beers").hasRole(AuthoritiesConstants.ADMIN.toString())
+			    .antMatchers(HttpMethod.GET, "/beers/**").hasRole(AuthoritiesConstants.ADMIN.toString())
+			    .antMatchers(HttpMethod.DELETE, "/beers/**").hasRole(AuthoritiesConstants.ADMIN.toString())
 				.antMatchers("/api/**")
 				.authenticated();
 	}
